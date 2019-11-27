@@ -22,10 +22,10 @@ public class Cliente1 {
 		Node u1 = new Node(InetAddress.getByName("localhost"),3001,portaCliente2);
 		gui helgui = new gui(u1,portaCliente2);
 
-		//while(true) {
+
 			Thread r1 = new Receber(u1,2,helgui);
 			r1.start();
-		//}
+
 
 	}
 
@@ -99,10 +99,12 @@ class Receber extends Thread{
 	}
 
 	public void run() {
-		try {
-			node.receber(numNode,Gui);
-		} catch (IOException e) {
-			e.printStackTrace();
+		while(true) {
+			try {
+				node.receber(numNode, Gui);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

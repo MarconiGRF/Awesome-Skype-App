@@ -14,7 +14,7 @@ public class gui {
     private JPanel panel1;
     private JTextField textField1;
     private JTextArea textArea1;
-
+    private JButton audioButton;
 
 
     public gui(Node u1, int portaCliente2){

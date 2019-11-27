@@ -41,9 +41,9 @@ class RTPController {
 
     BitSet SSRCIdentifier = new BitSet(32);
 
-    RTP_Transmissor(InetAddress ip) implements Runnable{
+   // RTP_Transmissor(InetAddress ip) implements Runnable{
 
-    }
+   // }
 
     RTPController() throws IOException {
         //Initially every BitSet is filled with zeros.

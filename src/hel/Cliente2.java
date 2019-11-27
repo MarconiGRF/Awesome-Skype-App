@@ -16,11 +16,11 @@ public class Cliente2 {
 		clienteSocket.close();
 		Node u2 = new Node(InetAddress.getByName("localhost"),3002,portaCliente1);
 		gui helgui = new gui(u2,portaCliente1);
-		while(true) {
+
 			Thread r2 = new Receber(u2,1,helgui);
 			r2.start();
 
-		}
+
 	}
 
 }

@@ -1,6 +1,7 @@
 package hel;
 
 import javax.xml.crypto.Data;
+import javax.sound.sampled.*;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 import java.text.BreakIterator;
 import java.util.BitSet;
 import java.util.Date;
+import java.io.*;
 
 public class RTPier {
     public static void main(String[] args) throws IOException{
@@ -40,10 +42,6 @@ class RTPController {
     BitSet timestamp = new BitSet(32);
 
     BitSet SSRCIdentifier = new BitSet(32);
-
-   // RTP_Transmissor(InetAddress ip) implements Runnable{
-
-   // }
 
     RTPController() throws IOException {
         //Initially every BitSet is filled with zeros.
@@ -85,5 +83,62 @@ class RTPController {
         //9th to 12st octet - Section 6
             //6.1 Here we constantly need to set the timestamp.
         int RTPTimeStamp = (int)new Date().getTime();
+
+        Recorder recorder = new Recorder();
+        try {
+            recorder.line = (TargetDataLine)AudioSystem.getLine(recorder.info);
+            recorder.line.open(recorder.format);
+            AudioInputStream audioStream = new AudioInputStream(recorder.line);
+
+            //We need to implement X bytes, those who represent 20ms of audio, so it can fit the RTP specification.
+            //audioStream.readNBytes()
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 }
+
+
+class Recorder {
+    // Record duration, in milliseconds
+    //private static long RECORD_TIME = 5000;
+
+    // Audio source from computer.
+    TargetDataLine line;
+    AudioFormat format;
+    DataLine.Info info;
+
+    Recorder() {
+        this.format = new AudioFormat(8000, 8, 2, true, true);
+        this.info = new DataLine.Info(TargetDataLine.class, format);
+    }
+
+    //Captures and stores the audio data in file.
+    void start() {
+        try {
+            line = (TargetDataLine) AudioSystem.getLine(info);
+            line.open(format);
+            line.start();   // start capturing
+
+            System.out.println("Start capturing...");
+
+            AudioInputStream ais = new AudioInputStream(line);
+
+            System.out.println("Start recording...");
+
+            // This starts recording, we may use this implementation later to reconstruct the package on receiver side.
+            //AudioSystem.write(ais, fileType, wavFile);
+
+        } catch (LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    //Finishes the recording thread and mic input.
+    void finish() {
+        line.stop();
+        line.close();
+        System.out.println("Finished");
+    }
+}
+

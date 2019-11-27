@@ -1,5 +1,6 @@
 package hel;
 
+import javax.swing.text.BadLocationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +21,7 @@ public class Cliente1 {
 		int portaCliente2 = Integer.parseInt(inFromServer.readLine());
 		clienteSocket.close();
 		Node u1 = new Node(InetAddress.getByName("localhost"),3001,portaCliente2);
+		loginForm login = new loginForm();
 		gui helgui = new gui(u1,portaCliente2);
 
 
@@ -52,7 +54,7 @@ class Node {
 		//nodeSocket.close();
 	}
 
-	void receber(int numNode, gui helgui) throws IOException {
+	void receber(int numNode, gui helgui) throws IOException, BadLocationException {
 		byte[] receiveData = new byte[1024];
 		DatagramPacket receivePacket = new DatagramPacket(receiveData,receiveData.length);
 		nodeSocket.receive(receivePacket);
@@ -103,6 +105,8 @@ class Receber extends Thread{
 			try {
 				node.receber(numNode, Gui);
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
 		}

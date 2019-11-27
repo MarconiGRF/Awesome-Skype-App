@@ -13,12 +13,15 @@ import java.net.Socket;
 public class Server {
 	public static void main(String[] args) {
 			try {
+				serverLog serverlog = new serverLog();
 				int listaClientes = 0;
 				ServerSocket tempSocket1 = new ServerSocket(3001);
+				serverlog.write("Esperando pelo primeiro cliente.");
 				Socket cliente1 = tempSocket1.accept();
 				OutputStream saidaCliente1 = cliente1.getOutputStream();
 				System.out.println("Conectado primeiro cliente!");
 				ServerSocket tempSocket2 = new ServerSocket(3002);
+				serverlog.write("Esperando pelo segundo cliente.");
 				Socket cliente2 = tempSocket2.accept();
 				OutputStream saidaCliente2 = cliente2.getOutputStream();
 				System.out.println("Conectado segundo cliente!");

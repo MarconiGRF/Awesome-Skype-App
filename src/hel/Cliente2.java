@@ -15,12 +15,11 @@ public class Cliente2 {
 		int portaCliente1 = Integer.parseInt(inFromServer.readLine());
 		clienteSocket.close();
 		Node u2 = new Node(InetAddress.getByName("localhost"),3002,portaCliente1);
+		loginForm login = new loginForm();
 		gui helgui = new gui(u2,portaCliente1);
 
 			Thread r2 = new Receber(u2,1,helgui);
 			r2.start();
-
-
 	}
 
 }

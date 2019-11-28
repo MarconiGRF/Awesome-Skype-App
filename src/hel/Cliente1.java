@@ -16,17 +16,19 @@ public class Cliente1 {
 
 	public static void main(String[] args) throws IOException{
 
-		Socket clienteSocket = new Socket("localhost", 3001);
+		Socket clienteSocket = new Socket("localhost", 3000);
+		System.out.println("Socket iniciado com o servidor.");
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
+		System.out.println("Buffer lido do servidor.");
 		int portaCliente2 = Integer.parseInt(inFromServer.readLine());
-		clienteSocket.close();
-		Node u1 = new Node(InetAddress.getByName("localhost"),3001,portaCliente2);
-		loginForm login = new loginForm();
+		System.out.println("Messagem lida do buffer");
+		Node u1 = new Node(InetAddress.getByName("localhost"),3002,portaCliente2);
+		System.out.println("Conexao criada com outro cliente");
+
+		//loginForm login = new loginForm();
 		gui helgui = new gui(u1,portaCliente2);
-
-
-			Thread r1 = new Receber(u1,2,helgui);
-			r1.start();
+		Thread r1 = new Receber(u1,2,helgui);
+		r1.start();
 
 
 	}

@@ -11,6 +11,8 @@ import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Server {
     public static void main(String[] args) {
@@ -20,6 +22,7 @@ public class Server {
             int listaClientes = 0;
             ServerSocket tempSocket1 = new ServerSocket(3001);
             ServerSocket tempSocket2 = new ServerSocket(3002);
+
 
             Conecta c1 = new Conecta(tempSocket1, serverlog, 1);
             Conecta c2 = new Conecta(tempSocket2, serverlog, 2);
@@ -38,11 +41,37 @@ public class Server {
                     bufferedWriterCliente.flush();
                     c2.first = false;
                 }
+                if(c1.status && !c1.first){
+                    if(c2.status){
+                        BufferedWriter bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(c1.saidaCliente)));
+                        bufferedWriterCliente.write("online" +"\n");
+                        bufferedWriterCliente.flush();
+                    }else{
+                        BufferedWriter bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(c1.saidaCliente)));
+                        bufferedWriterCliente.write("offline" +"\n");
+                        bufferedWriterCliente.flush();
+                    }
+                }
+
+                if(c2.status && !c2.first){
+                    if(c1.status){
+                        BufferedWriter bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(c2.saidaCliente)));
+                        bufferedWriterCliente.write("online" +"\n");
+                        bufferedWriterCliente.flush();
+                    }else{
+                        BufferedWriter bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(c2.saidaCliente)));
+                        bufferedWriterCliente.write("offline" +"\n");
+                        bufferedWriterCliente.flush();
+                    }
+                }
+                serverlog.changeColor(c1.status, c2.status);
+
                 Thread.sleep(1000);
             }
         } catch (BindException e) {
             System.out.println("Endere�o em uso");
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Erro: " + e.getMessage());
         }
 

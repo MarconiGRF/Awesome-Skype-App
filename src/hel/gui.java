@@ -1,6 +1,8 @@
 package hel;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.*;
@@ -13,8 +15,8 @@ public class gui {
     private JButton button1;
     private JPanel panel1;
     private JTextField textField1;
-    private JTextArea textArea1;
     private JButton audioButton;
+    private JTextPane textPane1;
 
 
     public gui(Node u1, int portaCliente2){
@@ -36,7 +38,11 @@ public class gui {
                         ex.printStackTrace();
                     }
                     s1.start();
-                    write("Você: " + textField1.getText());
+                    try {
+                        write("Você: " + textField1.getText());
+                    } catch (BadLocationException ex) {
+                        ex.printStackTrace();
+                    }
                     textField1.setText("");
                 }
             }
@@ -52,15 +58,21 @@ public class gui {
                         ex.printStackTrace();
                     }
                     s1.start();
-                    write("Você: " + textField1.getText());
+                    try {
+                        write("Você: " + textField1.getText());
+                    } catch (BadLocationException ex) {
+                        ex.printStackTrace();
+                    }
                     textField1.setText("");
                 }
             }
         });
     }
 
-    public void write(String thing){
-        textArea1.append(thing + "\n");
+    public void write(String thing) throws BadLocationException {
+        //textArea1.append(thing + "\n");
+        Document doc = textPane1.getDocument();
+        doc.insertString(doc.getLength(), thing + "\n", null);
     }
 
 }

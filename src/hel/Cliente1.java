@@ -1,13 +1,8 @@
 package hel;
 
 import javax.swing.text.BadLocationException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.util.Scanner;
 
 public class Cliente1 {
@@ -17,12 +12,17 @@ public class Cliente1 {
 	public static void main(String[] args) throws IOException{
 
 		Socket clienteSocket = new Socket("localhost", 3000);
+		Conecta_client client = new Conecta_client(clienteSocket);
+		client.start();
 		System.out.println("Socket iniciado com o servidor.");
-		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
+		DataInputStream inFromServer =  new DataInputStream(clienteSocket.getInputStream());
+
+		//BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
 		System.out.println("Buffer lido do servidor.");
-		int portaCliente2 = Integer.parseInt(inFromServer.readLine());
+		int portaCliente2 = inFromServer.read();
+		System.out.println("Porta do outro cliente: " + portaCliente2);
 		System.out.println("Messagem lida do buffer");
-		Node u1 = new Node(InetAddress.getByName("localhost"),3002,portaCliente2);
+		Node u1 = new Node(InetAddress.getByName("localhost"),3001,portaCliente2);
 		System.out.println("Conexao criada com outro cliente");
 
 		//loginForm login = new loginForm();
@@ -34,6 +34,31 @@ public class Cliente1 {
 	}
 
 }
+
+class Conecta_client extends Thread {
+	Socket tempSocket;
+
+	Conecta_client(Socket tempSocket) {
+		this.tempSocket = tempSocket;
+	}
+
+	public void run() {
+		try {
+			BufferedWriter writeToServer = new BufferedWriter(new OutputStreamWriter(tempSocket.getOutputStream()));
+			writeToServer.write("login");
+			while (true) {
+				writeToServer.write("on");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+}
+
+
+
 class Node {
 	int portaNode;
 	int portaSegundoNode;

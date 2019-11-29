@@ -15,42 +15,28 @@ import java.io.*;
 public class Server {
     public static void main(String[] args) {
         try {
+            BufferedWriter bufferedWriterCliente1, bufferedWriterCliente2;
             serverLog serverlog = new serverLog();
             int listaClientes = 0;
             ServerSocket tempSocket = new ServerSocket(3000);
-
-
             Conecta c1 = new Conecta(tempSocket, serverlog, 1);
             Conecta c2 = new Conecta(tempSocket, serverlog, 2);
             c1.start();
             c2.start();
-            while (true/*c1.status || c2.status*/) {
-                System.out.println(c1.status + "|" + c1.first + "|||" + c2.status + "|" + c2.first);
-                if (c1.status && c2.status && c1.first) {
-                    try {
-                        c1.bufferedWriterCliente.write(Integer.toString(c2.cliente.getLocalPort() + 2));
-                        System.out.println("Buffer escrito no cliente 1");
-                        c1.bufferedWriterCliente.flush();
-                        //bufferedWriterCliente1.close();
-                        c1.first = false;
-                    } catch (Exception e) {
-                        c1.first = true;
-                        c1.status = false;
-                    }
+
+            while(true) {
+                System.out.println(c1.status + "|" + c1.first);
+                System.out.println(c2.status + "|" + c2.first);
+
+                if(c1.status && c2.status && c1.first){
+                    c1.outToClient.write(c2.cliente.getLocalPort());
+                    c1.first = false;
                 }
-                if (c2.status && c1.status && c2.first) {
-                    try {
-                        c2.bufferedWriterCliente.write(Integer.toString(c1.cliente.getLocalPort() + 1));
-                        System.out.println("Buffer escrito no cliente 2");
-                        c2.bufferedWriterCliente.flush();
-                        //bufferedWriterCliente2.close();
-                        c2.first = false;
-                    } catch (Exception e) {
-                        c2.first = true;
-                        c2.status = false;
-                    }
+                if(c1.status && c2.status && c2.first){
+                    c2.outToClient.write(c1.cliente.getLocalPort());
+                    c2.first = false;
                 }
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             }
         } catch (BindException e) {
             System.out.println("Endere�o em uso");
@@ -67,7 +53,10 @@ class Conecta extends Thread {
     boolean status, first;
     OutputStream saidaCliente;
     InputStream entradaCliente;
-    BufferedWriter bufferedWriterCliente;
+    DataInputStream inFromClient;
+    DataOutputStream outToClient;
+    BufferedReader in;
+
     serverLog serverlog;
     int numero;
 
@@ -91,8 +80,19 @@ class Conecta extends Thread {
                     saidaCliente = cliente.getOutputStream();
                     entradaCliente = cliente.getInputStream();
                     serverlog.write("OutputStream do cliente " + numero + " criado.");
-                    bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(saidaCliente)));
-                    serverlog.write("Buffer do cliente " + numero + " criado.");
+                    inFromClient =  new DataInputStream(entradaCliente);
+                    outToClient =   new DataOutputStream(saidaCliente);
+                }
+                try {
+                    String clientLogin = inFromClient.readUTF();
+                    if(clientLogin.equals("login")){
+                        String data = null;
+                        in = new BufferedReader(new InputStreamReader(inFromClient));
+                    }
+                }catch (Exception e){
+                    serverlog.write("Cliente " + numero + " se desconectou :(");
+                    status = false;
+                    first = true;
                 }
             }
         } catch (IOException e) {
@@ -101,4 +101,6 @@ class Conecta extends Thread {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -3,8 +3,7 @@ package hel;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.net.*;
 import java.io.IOException;
 import hel.Enviar;
@@ -19,25 +18,22 @@ public class gui {
     private JTextPane textPane1;
 
 
-    public gui(Node u1, int portaCliente2){
+    public gui(Node u1, int portaCliente2, Socket clienteSocket){
         JFrame janela = new JFrame();
         janela.setContentPane(panel1);
         janela.setVisible(true);
         janela.pack();
         janela.setSize(600,480);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        Status_client client = new Status_client(clienteSocket);
+        client.start();
+        SendList armazenar = new SendList(u1, portaCliente2);
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals(button1.getActionCommand()));{
-                    Thread s1 = null;
-                    try {
-                        s1 = new Enviar(u1, InetAddress.getByName("localhost"),portaCliente2,textField1.getText());
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    s1.start();
+                    armazenar.update(client.friend);
+                    armazenar.sentolist(textField1.getText(), client.friend);
                     try {
                         write("Você: " + textField1.getText());
                     } catch (BadLocationException ex) {
@@ -47,17 +43,14 @@ public class gui {
                 }
             }
         });
+
+
         textField1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals(button1.getActionCommand()));{
-                    Thread s1 = null;
-                    try {
-                        s1 = new Enviar(u1, InetAddress.getByName("localhost"),portaCliente2,textField1.getText());
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    s1.start();
+                    armazenar.update(client.friend);
+                    armazenar.sentolist(textField1.getText(), client.friend);
                     try {
                         write("Você: " + textField1.getText());
                     } catch (BadLocationException ex) {
@@ -67,6 +60,7 @@ public class gui {
                 }
             }
         });
+
     }
 
     public void write(String thing) throws BadLocationException {

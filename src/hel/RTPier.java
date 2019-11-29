@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.ByteBuffer;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.BreakIterator;
@@ -68,36 +69,28 @@ class RTPController {
             //4.1 - Since in the constructor we didn't sent no packages, this number is 0 and will only grow as packages are transmitted.
 
         //5th to 8th octet - Section 5
-            //5.1 - The SSRC Identifier is a random number of 32bits, used to identify the source of the RTP Stream.
-            this.SSRCIdentifier.set(6, true); //We're going to use 64 (?).
+            //The TimeStamp
 
         //9th to 12st octet - Section 6
+            //9.1 - The SSRC Identifier is a random number of 32bits, used to identify the source of the RTP Stream.
+            this.SSRCIdentifier.set(6, true); //We're going to use 64 (?).
+
+
             //6.1 Here we constantly need to set the timestamp.
-        int RTPTimeStamp = (int)new Date().getTime();
+        byte[] tsbuff = ByteBuffer
+                                .allocate(Long.BYTES)
+                                .putLong(new Date().getTime())
+                                .array();
+
+
 
         DatagramSocket ds = new DatagramSocket();
-        BitSet firstOctect = new BitSet(8);
+        byte firstOctect = 66;
 
         /* Fills the first octet, passing bit to bit synchronously writing the octet into the temporary {firstOctet},
          * this preserves the header bit order.
          */
-        int i = 0;
-        for(int j = 0; j < 2; j++){
-            firstOctect.set(i, this.RTPVersion.get(j));
-            i++;
-        }
-        for(int j = 0; j < 1; j++){
-            firstOctect.set(i, this.padding.get(j));
-            i++;
-        }
-        for(int j = 0; j < 1; j++){
-            firstOctect.set(i, this.extensionHeader.get(j));
-            i++;
-        }
-        for(int j = 0; j < 4; j++){
-            firstOctect.set(i, this.CSRCCount.get(j));
-            i++;
-        }
+
 
         //Since the second octet is only composed by zero, its result is zero, so we can use a empty byte array.
         byte[] defaultZeroByteArray = new byte[1];
@@ -107,33 +100,42 @@ class RTPController {
         default64Array[0] = 64;
 
         //Builds Complete Header
-        byte[] finalHeader = new byte[12];
-        finalHeader[0] = firstOctect.toByteArray()[0];
-        finalHeader[1] = defaultZeroByteArray[0];
-        finalHeader[2] = defaultZeroByteArray[0];
-        finalHeader[3] = defaultZeroByteArray[0];
+        byte[] finalPackage = new byte[12];
 
-        finalHeader[4] = default64Array[0];
-        finalHeader[5] = defaultZeroByteArray[0];
-        finalHeader[6] = defaultZeroByteArray[0];
-        finalHeader[7] = defaultZeroByteArray[0];
+        //Header has 12 octets
+        finalPackage[0] = firstOctect;
+        finalPackage[1] = defaultZeroByteArray[0];
 
-        //Here we need to take care of the timestamp.
+        //Sequence number.
+        finalPackage[2] = defaultZeroByteArray[0];
+        finalPackage[3] = defaultZeroByteArray[0];
 
+        //Timestamp
+        finalPackage[4] = tsbuff[4];
+        finalPackage[5] = tsbuff[5];
+        finalPackage[6] = tsbuff[6];
+        finalPackage[7] = tsbuff[7];
 
+        //SSRC
+        finalPackage[8] =  default64Array[0];
+        finalPackage[9] = defaultZeroByteArray[0];
+        finalPackage[10] =  defaultZeroByteArray[0];
+        finalPackage[11] =  defaultZeroByteArray[0];
+
+        System.out.println("cu");
 
         //This is a little piece of test code that you won't touch.
         //It's so edgy that you know you won't get your eyes on it, BECAUSE IT DOESN'T EVEN EXIST.
         //Just leave it there.
         //¯\_(O  ͜ʖ O)_/¯
-        Double count = 0.0;
-        for(i = 0; i < firstOctect.size(); i++){
-            if(firstOctect.get(i)) {
-                count = count + (Math.pow(2, i));
-            }
-        }
+        //Double count = 0.0;
+        //for(int i = 0; i < firstOctect.size(); i++){
+        //    if(firstOctect.get(i)) {
+        //        count = count + (Math.pow(2, i));
+        //    }
+        //}
 
-        DatagramPacket RTPackage = new DatagramPacket(bytes, size);
+        //DatagramPacket RTPackage = new DatagramPacket(bytes, size);
         Recorder recorder = new Recorder();
         try {
             recorder.line = (TargetDataLine)AudioSystem.getLine(recorder.info);
@@ -144,6 +146,13 @@ class RTPController {
             //audioStream.readNBytes()
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
+        }
+    }
+
+    void increment(byte[] bits) {
+        bits[0]++;
+        if(bits[0] == 0) {
+            bits[1]++;
         }
     }
 }
@@ -191,3 +200,4 @@ class Recorder {
         System.out.println("Finished");
     }
 }
+

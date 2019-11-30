@@ -18,7 +18,7 @@ public class Cliente2 {
             Socket clienteSocket = new Socket(data.ip, data.serverPort);
 
             BufferedWriter writeToServer = new BufferedWriter(new OutputStreamWriter(clienteSocket.getOutputStream()));
-            writeToServer.write(Integer.toString(3004) + "\n");
+            writeToServer.write(Integer.toString(data.textPort) + "\n");
             writeToServer.write(clienteSocket.getInetAddress().getHostAddress() + "\n");
             writeToServer.flush();
 

@@ -52,17 +52,19 @@
           <text value=""/>
         </properties>
       </component>
-      <scrollpane id="6d32c">
+      <scrollpane id="851fd">
         <constraints>
-          <grid row="1" column="0" row-span="2" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <horizontalScrollBarPolicy value="31"/>
+        </properties>
         <border type="none"/>
         <children>
-          <component id="97874" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
+          <component id="75b59" class="javax.swing.JTextPane" binding="textArea">
             <constraints/>
             <properties>
-              <editable value="false"/>
+              <font name="Montserrat SemiBold" size="12"/>
             </properties>
           </component>
         </children>

@@ -18,7 +18,7 @@ public class gui {
     private JTextPane textPane1;
 
 
-    public gui(Node u1, int portaCliente2, Socket clienteSocket){
+    public gui(Node u1, int portaCliente2,String ipCliente2, Socket clienteSocket){
         JFrame janela = new JFrame();
         janela.setContentPane(panel1);
         janela.setVisible(true);
@@ -27,7 +27,7 @@ public class gui {
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Status_client client = new Status_client(clienteSocket);
         client.start();
-        SendList armazenar = new SendList(u1, portaCliente2);
+        SendList armazenar = new SendList(u1, portaCliente2, ipCliente2);
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

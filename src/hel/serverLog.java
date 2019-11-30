@@ -27,9 +27,10 @@ public class serverLog {
         window.setSize(400,400);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         String currentRelativePath = Paths.get(".").toAbsolutePath().normalize().toString();
-        String path = FileSystems.getDefault().getPath("/src/hel/images/red.png").toString();
-        red = new ImageIcon(currentRelativePath + path);
-        green = new ImageIcon(currentRelativePath + path);
+        String path_Red = FileSystems.getDefault().getPath("/src/hel/images/red.png").toString();
+        String path_Green = FileSystems.getDefault().getPath("/src/hel/images/green.png").toString();
+        red = new ImageIcon(currentRelativePath + path_Red);
+        green = new ImageIcon(currentRelativePath + path_Green);
 
     }
 

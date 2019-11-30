@@ -10,12 +10,14 @@ class Node {
     int portaNode;
     int portaSegundoNode;
     DatagramSocket nodeSocket;
+    String nome;
     gui helgui;
 
-    public Node(InetAddress nodeIP, int portaNode, int portaSegundoNode) throws IOException {
+    public Node(InetAddress nodeIP, int portaNode, int portaSegundoNode, String nome) throws IOException {
         System.out.println(nodeIP);
         this.portaNode = portaNode;
         this.portaSegundoNode = portaSegundoNode;
+        this.nome = nome;
         nodeSocket = new DatagramSocket(portaNode);
     }
 
@@ -33,7 +35,7 @@ class Node {
         DatagramPacket receivePacket = new DatagramPacket(receiveData,receiveData.length);
         nodeSocket.receive(receivePacket);
         String texto = new String(receivePacket.getData());
-        String letter = ("Cliente "+numNode+": "+texto);
+        String letter = (this.nome+": "+texto);
         helgui.write(letter);
         //nodeSocket.close();
     }

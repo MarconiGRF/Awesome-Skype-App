@@ -17,6 +17,7 @@ class Conecta extends Thread {
 
     serverLog serverlog;
     int numero, port;
+    String ip;
 
 
     Conecta(ServerSocket tempSocket, serverLog serverlog, int numero) {
@@ -40,6 +41,7 @@ class Conecta extends Thread {
                     serverlog.write("OutputStream do cliente " + numero + " criado.");
                     inFromClient = new BufferedReader(new InputStreamReader(entradaCliente));
                     port = Integer.parseInt(inFromClient.readLine());
+                    ip = inFromClient.readLine();
                     System.out.println(port);
                 }
                 try {

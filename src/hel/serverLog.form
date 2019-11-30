@@ -18,6 +18,7 @@
           <component id="59952" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
             <constraints/>
             <properties>
+              <autoscrolls value="true"/>
               <text value=""/>
             </properties>
           </component>

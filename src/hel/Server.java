@@ -19,7 +19,7 @@ public class Server {
         try {
             BufferedWriter bufferedWriterCliente1, bufferedWriterCliente2;
             serverLog serverlog = new serverLog();
-            int listaClientes = 0;
+
             ServerSocket tempSocket1 = new ServerSocket(3001);
             ServerSocket tempSocket2 = new ServerSocket(3002);
 
@@ -32,12 +32,14 @@ public class Server {
                 if(c1.status && c2.status && c1.first){
                     BufferedWriter bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(c1.saidaCliente)));
                     bufferedWriterCliente.write(Integer.toString(c2.port)+"\n");
+                    bufferedWriterCliente.write(c2.ip+"\n");
                     bufferedWriterCliente.flush();
                     c1.first = false;
                 }
                 if(c1.status && c2.status && c2.first){
                     BufferedWriter bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(c2.saidaCliente)));
                     bufferedWriterCliente.write(Integer.toString(c1.port)+"\n");
+                    bufferedWriterCliente.write(c1.ip+"\n");
                     bufferedWriterCliente.flush();
                     c2.first = false;
                 }
@@ -66,7 +68,7 @@ public class Server {
                 }
                 serverlog.changeColor(c1.status, c2.status);
 
-                Thread.sleep(1000);
+                Thread.sleep(100);
             }
         } catch (BindException e) {
             System.out.println("Endere�o em uso");

@@ -36,7 +36,7 @@ class Node {
         nodeSocket.receive(receivePacket);
         String texto = new String(receivePacket.getData());
         String letter = (this.nome+": "+texto);
-        helgui.write(letter);
+        helgui.write(letter, false);
         //nodeSocket.close();
     }
 }

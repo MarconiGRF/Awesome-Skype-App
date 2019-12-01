@@ -1,4 +1,6 @@
 package hel;
+/*This class is only for pass the data 
+connection for reference between classes*/
 
 public class ConnectionData {
     String name, ip;

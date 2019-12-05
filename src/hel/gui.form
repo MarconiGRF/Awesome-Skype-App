@@ -26,7 +26,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Audio"/>
+          <text value="Start"/>
         </properties>
       </component>
       <component id="7c24b" class="javax.swing.JButton" binding="button1" default-binding="true">

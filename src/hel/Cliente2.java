@@ -40,13 +40,14 @@ public class Cliente2 {
             String ipCliente2 = inFromServer.readLine();
 
 			//Creates the object node which make the connection p2p between clients
-            Node u1 = new Node(clienteSocket.getInetAddress(), data.textPort, portaCliente2, data.name);
+            Node textNode = new Node(clienteSocket.getInetAddress(), data.textPort, portaCliente2, data.name);
+            NodeAudio audioNode = new NodeAudio(clienteSocket.getInetAddress(), data.audioPort, portaCliente2);
 
 			//Creates the client form
-            gui helgui = new gui(u1, portaCliente2, ipCliente2, clienteSocket);
+            gui helgui = new gui(textNode, audioNode, portaCliente2, ipCliente2, clienteSocket);
 			
 			//Creates the Thread which the client will be receiving messages
-            Thread r1 = new Receber(u1, 1, helgui);
+            Thread r1 = new Receber(textNode, 1, helgui);
             r1.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());

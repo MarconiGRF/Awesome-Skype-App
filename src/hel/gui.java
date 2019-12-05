@@ -18,7 +18,7 @@ public class gui {
     private JTextPane textArea;
 
 
-    public gui(Node u1, int portaCliente2,String ipCliente2, Socket clienteSocket){
+    public gui(Node textNode, NodeAudio audioNode, int portaCliente2,String ipCliente2, Socket clienteSocket){
         JFrame janela = new JFrame();
         janela.setContentPane(panel1);
         janela.setVisible(true);
@@ -27,7 +27,8 @@ public class gui {
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Status_client client = new Status_client(clienteSocket);
         client.start();
-        SendList armazenar = new SendList(u1, portaCliente2, ipCliente2);
+        SendList armazenar = new SendList(textNode, portaCliente2, ipCliente2);
+        SendAudio audio = new SendAudio();
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,6 +66,14 @@ public class gui {
             }
         });
 
+        audioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getActionCommand().equals(button1.getActionCommand()));{
+
+                }
+            }
+        });
     }
 
     public void write(String thing, boolean self) throws BadLocationException {

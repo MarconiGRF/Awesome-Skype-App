@@ -26,8 +26,6 @@ class Node {
         Object lock1 = new Object();
         DatagramPacket sendPacket = new DatagramPacket(out, out.length, segundoNodeIP, portaSegundoNode);
         nodeSocket.send(sendPacket);
-        //System.out.println("Enviado!");
-        //nodeSocket.close();
     }
 
     void receber(int numNode, gui helgui) throws IOException, BadLocationException {

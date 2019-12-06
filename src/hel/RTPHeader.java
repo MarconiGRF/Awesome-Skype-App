@@ -55,8 +55,6 @@ public class RTPHeader {
         //9.1 - The SSRC Identifier is a random number of 32bits, used to identify the source of the RTP Stream.
         //We're going to use 64 (?).
 
-        System.out.println("cu");
-
         //This is a little piece of test code that you won't touch.
         //It's so edgy that you know you won't get your eyes on it, BECAUSE IT DOESN'T EVEN EXIST.
         //Just leave it there.

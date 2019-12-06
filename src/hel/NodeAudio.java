@@ -39,9 +39,10 @@ public class NodeAudio {
     void enviar(TargetDataLine line, int date, int sequence) throws IOException {
         byte[] buffer = new byte[1012];
         line.read(buffer, 0, buffer.length);
-        RTPPacket packet = new RTPPacket(11, sequence, date, buffer, 1012);
+        RTPHeader packet = new RTPHeader();
         byte[] fullPacket = new byte[1012+12];
-        packet.getpacket(fullPacket);
+        System.arraycopy(packet.getHeader(), 0, fullPacket, 0, packet.getHeader().length);
+        System.arraycopy(buffer, 0, fullPacket, packet.getHeader().length, buffer.length);
         DatagramPacket data = new DatagramPacket(fullPacket, fullPacket.length, InetAddress.getByName(ip), portaSegundoNode);
         nodeSocket.send(data);
     }

@@ -34,7 +34,7 @@ public class Server {
                     bufferedWriterCliente.write(Integer.toString(c2.textPort)+"\n");
                     bufferedWriterCliente.write(c2.ip+"\n");
                     bufferedWriterCliente.write(Integer.toString(c2.audioPort)+"\n");
-                    bufferedWriterCliente.write(c2.nome);
+                    bufferedWriterCliente.write(c2.nome+"\n");
                     bufferedWriterCliente.flush();
                     c1.first = false;
                 }
@@ -43,7 +43,7 @@ public class Server {
                     bufferedWriterCliente.write(Integer.toString(c1.textPort)+"\n");
                     bufferedWriterCliente.write(c1.ip+"\n");
                     bufferedWriterCliente.write(Integer.toString(c1.audioPort)+"\n");
-                    bufferedWriterCliente.write(c1.nome);
+                    bufferedWriterCliente.write(c1.nome+"\n");
                     bufferedWriterCliente.flush();
                     c2.first = false;
                 }
@@ -72,7 +72,7 @@ public class Server {
                 }
                 serverlog.changeColor(c1.status, c2.status);
 
-                Thread.sleep(100);
+                Thread.sleep(1000);
             }
         } catch (BindException e) {
             System.out.println("Endere�o em uso");

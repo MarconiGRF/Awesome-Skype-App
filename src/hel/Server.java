@@ -31,15 +31,19 @@ public class Server {
             while(true) {
                 if(c1.status && c2.status && c1.first){
                     BufferedWriter bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(c1.saidaCliente)));
-                    bufferedWriterCliente.write(Integer.toString(c2.port)+"\n");
+                    bufferedWriterCliente.write(Integer.toString(c2.textPort)+"\n");
                     bufferedWriterCliente.write(c2.ip+"\n");
+                    bufferedWriterCliente.write(Integer.toString(c2.audioPort)+"\n");
+                    bufferedWriterCliente.write(c2.nome);
                     bufferedWriterCliente.flush();
                     c1.first = false;
                 }
                 if(c1.status && c2.status && c2.first){
                     BufferedWriter bufferedWriterCliente = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(c2.saidaCliente)));
-                    bufferedWriterCliente.write(Integer.toString(c1.port)+"\n");
+                    bufferedWriterCliente.write(Integer.toString(c1.textPort)+"\n");
                     bufferedWriterCliente.write(c1.ip+"\n");
+                    bufferedWriterCliente.write(Integer.toString(c1.audioPort)+"\n");
+                    bufferedWriterCliente.write(c1.nome);
                     bufferedWriterCliente.flush();
                     c2.first = false;
                 }

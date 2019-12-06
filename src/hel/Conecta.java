@@ -20,8 +20,8 @@ class Conecta extends Thread {
     BufferedReader in;
     BufferedReader inFromClient;
     serverLog serverlog;
-    int numero, port;
-    String ip;
+    int numero, textPort, audioPort;
+    String ip, nome;
 
     // Listen constructor
     Conecta(ServerSocket tempSocket, serverLog serverlog, int numero) {
@@ -58,9 +58,13 @@ class Conecta extends Thread {
                     inFromClient = new BufferedReader(new InputStreamReader(entradaCliente));
                     
                     /*Reads two lines of text coming from the client
-			        one is the port and the other the ip of this client*/
-                    port = Integer.parseInt(inFromClient.readLine());
+			        one is the textPort and the other the ip of this client*/
+                    textPort = Integer.parseInt(inFromClient.readLine());
                     ip = inFromClient.readLine();
+                    audioPort = Integer.parseInt(inFromClient.readLine());
+                    nome = inFromClient.readLine();
+
+
                 }
                 try {
                     

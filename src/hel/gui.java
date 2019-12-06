@@ -97,7 +97,7 @@ public class gui {
         StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
         StyleConstants.setForeground(right, Color.BLUE);
         StyledDocument doc = textArea.getStyledDocument();
-        if(self){
+        if(!self){
             doc.insertString(doc.getLength(), "\n"+thing, right);
             doc.setParagraphAttributes(doc.getLength(), 1, right, false);
         }else {

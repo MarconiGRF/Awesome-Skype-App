@@ -6,6 +6,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.util.Date;
 
 public class SendAudio extends Thread {
     public TargetDataLine line = null;
@@ -24,13 +25,16 @@ public class SendAudio extends Thread {
 
     @Override
     public void run(){
+        int sequence = 0;
         while(true){
             try {
-                node.enviar(line, ip, port);
+                int date =(int) new Date().getTime();
+                node.enviar(line, date, sequence);
             } catch (IOException ex) {
                 ex.printStackTrace();
                 break;
             }
+            sequence++;
         }
         line.drain();
         line.close();

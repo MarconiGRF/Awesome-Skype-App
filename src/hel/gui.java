@@ -28,8 +28,8 @@ public class gui {
         Recorder rec = new Recorder();
         SendList armazenar = new SendList(textNode, portaCliente2, ipCliente2);
         final SendAudio[] audio = new SendAudio[1];
-        ReceiveAudio receive = new ReceiveAudio(audioNode, rec);
-        receive.start();
+        final ReceiveAudio[] receive = new ReceiveAudio[1];
+
 
         button1.addActionListener(new ActionListener() {
             @Override
@@ -73,14 +73,16 @@ public class gui {
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals(button1.getActionCommand()));{
                     if(audioButton.getText().equals("Start")){
+                        receive[0] = new ReceiveAudio(audioNode, rec);
+                        receive[0].start();
                         audio[0] = new SendAudio(audioNode, rec);
                         audio[0].start();
                         audioButton.setText("Stop");
                     }else{
+                        receive[0].stop();
                         audio[0].stop();
                         audioButton.setText("Start");
                     }
-
                 }
             }
         });

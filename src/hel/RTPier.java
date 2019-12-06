@@ -122,8 +122,6 @@ class RTPController {
         finalPackage[10] =  defaultZeroByteArray[0];
         finalPackage[11] =  defaultZeroByteArray[0];
 
-        System.out.println("cu");
-
         //This is a little piece of test code that you won't touch.
         //It's so edgy that you know you won't get your eyes on it, BECAUSE IT DOESN'T EVEN EXIST.
         //Just leave it there.

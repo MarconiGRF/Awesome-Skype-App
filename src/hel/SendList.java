@@ -21,7 +21,7 @@ public class SendList extends Thread {
 
     void update(boolean statusupdate){
         this.clientstatus = statusupdate;
-        if(clientstatus && unsentmsgs){
+        if(clientstatus){
             while(!unsent.isEmpty()){
                 Thread s1 = null;
                 try {

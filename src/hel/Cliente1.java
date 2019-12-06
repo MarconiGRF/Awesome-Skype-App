@@ -41,7 +41,7 @@ public class Cliente1 {
 
 			//Creates the object node which make the connection p2p between clients
             TextNode textNode = new TextNode(clienteSocket.getInetAddress(), data.textPort, portaCliente2, data.name);
-            NodeAudio audioNode = new NodeAudio(clienteSocket.getInetAddress(), data.audioPort, 3006);
+            NodeAudio audioNode = new NodeAudio(clienteSocket.getInetAddress(), data.audioPort, 3006, ipCliente2);
 
 			//Creates the client form
             gui helgui = new gui(textNode, audioNode, portaCliente2, ipCliente2, clienteSocket);

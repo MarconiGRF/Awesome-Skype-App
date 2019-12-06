@@ -15,12 +15,14 @@ public class NodeAudio {
     int portaSegundoNode;
     DatagramSocket nodeSocket;
     InetAddress nodeIP;
+    String ip;
 
-    public NodeAudio(InetAddress nodeIP, int portaNode, int portaSegundoNode) throws IOException {
+    public NodeAudio(InetAddress nodeIP, int portaNode, int portaSegundoNode, String ipCliente2) throws IOException {
         System.out.println(nodeIP);
         this.nodeIP = nodeIP;
         this.portaNode = portaNode;
         this.portaSegundoNode = portaSegundoNode;
+        this.ip = ipCliente2;
         nodeSocket = new DatagramSocket(portaNode);
     }
 
@@ -40,7 +42,7 @@ public class NodeAudio {
         RTPPacket packet = new RTPPacket(11, sequence, date, buffer, 1012);
         byte[] fullPacket = new byte[1012+12];
         packet.getpacket(fullPacket);
-        DatagramPacket data = new DatagramPacket(fullPacket, fullPacket.length, nodeIP, portaSegundoNode);
+        DatagramPacket data = new DatagramPacket(fullPacket, fullPacket.length, InetAddress.getByName(ip), portaSegundoNode);
         nodeSocket.send(data);
     }
 

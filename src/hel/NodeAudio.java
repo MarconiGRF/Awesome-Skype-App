@@ -36,10 +36,28 @@ public class NodeAudio {
         audio_out.write(receiveData, 0, receiveData.length);
     }
 
-    void enviar(TargetDataLine line, InetAddress ip, int port) throws IOException {
-        byte[] buffer = new byte[882];
-        line.read(buffer, 0, buffer.length);
+    void enviar(TargetDataLine line) throws IOException {
+        byte[] buffer = new byte[894];
+
+        RTPHeader header = new RTPHeader();
+        byte[] bytedHeader = header.getHeader();
+        buffer[0] = bytedHeader[0];
+        buffer[1] = bytedHeader[1];
+        buffer[2] = bytedHeader[2];
+        buffer[3] = bytedHeader[3];
+        buffer[4] = bytedHeader[4];
+        buffer[5] = bytedHeader[5];
+        buffer[6] = bytedHeader[6];
+        buffer[7] = bytedHeader[7];
+        buffer[8] = bytedHeader[8];
+        buffer[9] = bytedHeader[9];
+        buffer[10] = bytedHeader[10];
+        buffer[11] = bytedHeader[11];
+
+        line.read(buffer, 12, buffer.length);
         DatagramPacket data = new DatagramPacket(buffer, buffer.length, nodeIP, portaSegundoNode);
+
+        //Increment function
         nodeSocket.send(data);
     }
 

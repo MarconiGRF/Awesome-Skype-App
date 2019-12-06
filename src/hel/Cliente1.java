@@ -26,7 +26,7 @@ public class Cliente1 {
 			
 			//Write two lines for the server, one containing the port and another containing the ip
             writeToServer.write(Integer.toString(data.textPort) + "\n");
-            writeToServer.write(clienteSocket.getInetAddress().getHostAddress() + "\n");
+            writeToServer.write(clienteSocket.getLocalAddress().getHostAddress() + "\n");
             writeToServer.flush();
 
 			//Creates a buffering character-input stream to the server that uses a default-sized input buffer.
@@ -36,6 +36,8 @@ public class Cliente1 {
 			ont the port and the other the ip of the another client*/
             int portaCliente2 = Integer.parseInt(inFromServer.readLine());
             String ipCliente2 = inFromServer.readLine();
+
+
 
 			//Creates the object node which make the connection p2p between clients
             TextNode textNode = new TextNode(clienteSocket.getInetAddress(), data.textPort, portaCliente2, data.name);

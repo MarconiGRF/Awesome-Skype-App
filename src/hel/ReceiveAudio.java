@@ -1,8 +1,5 @@
 package hel;
 
-import sun.audio.AudioData;
-import sun.audio.AudioDataStream;
-import sun.audio.AudioPlayer;
 
 import javax.swing.text.BadLocationException;
 import java.io.IOException;

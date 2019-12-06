@@ -1,8 +1,5 @@
 package hel;
 
-import sun.audio.AudioData;
-import sun.audio.AudioDataStream;
-import sun.audio.AudioPlayer;
 
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
@@ -36,7 +33,7 @@ public class NodeAudio {
         // Create the AudioData object from the byte array
         audio_out.write(slice, 0, slice.length);
     }
-    
+
     void enviar(TargetDataLine line, int date, int sequence) throws IOException {
         byte[] buffer = new byte[1012];
         line.read(buffer, 0, buffer.length);

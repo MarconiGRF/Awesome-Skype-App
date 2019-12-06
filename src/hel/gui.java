@@ -27,9 +27,9 @@ public class gui {
         client.start();
         Recorder rec = new Recorder();
         SendList armazenar = new SendList(textNode, portaCliente2, ipCliente2);
-        SendAudio audio = new SendAudio(audioNode, rec);
+        final SendAudio[] audio = new SendAudio[1];
         ReceiveAudio receive = new ReceiveAudio(audioNode, rec);
-
+        receive.start();
 
         button1.addActionListener(new ActionListener() {
             @Override
@@ -72,14 +72,13 @@ public class gui {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals(button1.getActionCommand()));{
-                    if(button1.getText().equals("Start")){
-                        audio.start();
-                        receive.start();
-                        button1.setText("Stop");
+                    if(audioButton.getText().equals("Start")){
+                        audio[0] = new SendAudio(audioNode, rec);
+                        audio[0].start();
+                        audioButton.setText("Stop");
                     }else{
-                        receive.stop();
-                        audio.stop();
-                        button1.setText("Start");
+                        audio[0].stop();
+                        audioButton.setText("Start");
                     }
 
                 }

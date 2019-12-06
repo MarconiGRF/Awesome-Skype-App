@@ -7,7 +7,6 @@ class Recorder {
     //private static long RECORD_TIME = 5000;
 
     // Audio source from computer.
-    TargetDataLine line;
     AudioFormat format;
     DataLine.Info info;
     SourceDataLine audio_out;
@@ -16,7 +15,7 @@ class Recorder {
     DataLine.Info info_out;
 
     Recorder() throws LineUnavailableException {
-        this.format = new AudioFormat(8000, 8, 2, true, true);
+        this.format = new AudioFormat(44100, 8, 2, true, true);
         this.info = new DataLine.Info(TargetDataLine.class, format);
         this.info_in = new DataLine.Info(TargetDataLine.class, format);
         this.info_out = new DataLine.Info(SourceDataLine.class, format);

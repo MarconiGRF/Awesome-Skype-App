@@ -17,12 +17,13 @@ class ReceiveAudio extends Thread{
 
     ReceiveAudio(NodeAudio node, Recorder rec){
         this.node = node;
+        this.rec = rec;
     }
 
     public void run() {
         while(true) {
             try {
-                node.receber();
+                node.receber(rec.audio_out);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (BadLocationException e) {

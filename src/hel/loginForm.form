@@ -43,7 +43,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="192.168.0.112"/>
+              <text value="localhost"/>
             </properties>
           </component>
         </children>
@@ -183,7 +183,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="1000"/>
+              <text value="3005"/>
             </properties>
           </component>
           <hspacer id="4baea">

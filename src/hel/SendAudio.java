@@ -10,7 +10,6 @@ import java.net.InetAddress;
 public class SendAudio extends Thread {
     public TargetDataLine line = null;
     public DatagramSocket socket;
-    byte[] buffer = new byte[512];
     public InetAddress ip;
     public int port;
     NodeAudio node;
@@ -19,15 +18,15 @@ public class SendAudio extends Thread {
         this.node = node;
         this.socket = node.nodeSocket;
         this.ip = node.nodeSocket.getInetAddress();
-        this.port = node.nodeSocket.getPort();
-        this.line = rec.line;
+        this.port = node.portaSegundoNode;
+        this.line = rec.audio_in;
     }
 
     @Override
     public void run(){
         while(true){
             try {
-                node.enviar(buffer, line, ip, port);
+                node.enviar(line, ip, port);
             } catch (IOException ex) {
                 ex.printStackTrace();
                 break;

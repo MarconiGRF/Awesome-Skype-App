@@ -1,13 +1,11 @@
 package hel;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
-import java.io.IOException;
-import hel.Enviar;
-import hel.Node;
 
 
 public class gui {
@@ -18,7 +16,7 @@ public class gui {
     private JTextPane textArea;
 
 
-    public gui(Node textNode, NodeAudio audioNode, int portaCliente2,String ipCliente2, Socket clienteSocket){
+    public gui(TextNode textNode, NodeAudio audioNode, int portaCliente2, String ipCliente2, Socket clienteSocket) throws LineUnavailableException {
         JFrame janela = new JFrame();
         janela.setContentPane(panel1);
         janela.setVisible(true);
@@ -27,8 +25,12 @@ public class gui {
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Status_client client = new Status_client(clienteSocket);
         client.start();
+        Recorder rec = new Recorder();
         SendList armazenar = new SendList(textNode, portaCliente2, ipCliente2);
-        SendAudio audio = new SendAudio();
+        SendAudio audio = new SendAudio(audioNode, rec);
+        ReceiveAudio receive = new ReceiveAudio(audioNode, rec);
+
+
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,6 +72,15 @@ public class gui {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals(button1.getActionCommand()));{
+                    if(button1.getText().equals("Start")){
+                        audio.start();
+                        receive.start();
+                        button1.setText("Stop");
+                    }else{
+                        receive.stop();
+                        audio.stop();
+                        button1.setText("Start");
+                    }
 
                 }
             }

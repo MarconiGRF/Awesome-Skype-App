@@ -6,14 +6,14 @@ import java.net.InetAddress;
 for send messages*/
 
 class  Enviar extends Thread{
-    private Node node;
+    private TextNode textNode;
     InetAddress segundoNodeIP;
     int portaSegundoNode;
     String texto;
     
     //Send constructor
-    public Enviar(Node node, InetAddress segundoNodeIP, int portaSegundoNode, String texto) throws IOException {
-        this.node = node;
+    public Enviar(TextNode textNode, InetAddress segundoNodeIP, int portaSegundoNode, String texto) throws IOException {
+        this.textNode = textNode;
         this.segundoNodeIP = segundoNodeIP;
         this.portaSegundoNode = portaSegundoNode;
         this.texto = texto;
@@ -23,7 +23,7 @@ class  Enviar extends Thread{
     public void run(){
         try {
             //Call the node method send
-            node.enviar(segundoNodeIP, portaSegundoNode, texto);
+            textNode.enviar(segundoNodeIP, portaSegundoNode, texto);
         } catch (IOException e) {
             e.printStackTrace();
         }

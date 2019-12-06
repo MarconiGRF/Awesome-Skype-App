@@ -6,14 +6,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-class Node {
+class TextNode {
     int portaNode;
     int portaSegundoNode;
     DatagramSocket nodeSocket;
     String nome;
     gui helgui;
 
-    public Node(InetAddress nodeIP, int portaNode, int portaSegundoNode, String nome) throws IOException {
+    public TextNode(InetAddress nodeIP, int portaNode, int portaSegundoNode, String nome) throws IOException {
         System.out.println(nodeIP);
         this.portaNode = portaNode;
         this.portaSegundoNode = portaSegundoNode;

@@ -1,9 +1,7 @@
 package hel;
 
-import javax.swing.text.BadLocationException;
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
 
 public class Cliente1 {
 
@@ -40,7 +38,7 @@ public class Cliente1 {
             String ipCliente2 = inFromServer.readLine();
 
 			//Creates the object node which make the connection p2p between clients
-            Node textNode = new Node(clienteSocket.getInetAddress(), data.textPort, portaCliente2, data.name);
+            TextNode textNode = new TextNode(clienteSocket.getInetAddress(), data.textPort, portaCliente2, data.name);
             NodeAudio audioNode = new NodeAudio(clienteSocket.getInetAddress(), data.audioPort, portaCliente2);
 
 			//Creates the client form

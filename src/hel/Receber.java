@@ -4,12 +4,12 @@ import javax.swing.text.BadLocationException;
 import java.io.IOException;
 
 class Receber extends Thread{
-    private Node node;
+    private TextNode textNode;
     int numNode;
     gui Gui;
 
-    public Receber(Node node, int numNode, gui helgui) {
-        this.node = node;
+    public Receber(TextNode textNode, int numNode, gui helgui) {
+        this.textNode = textNode;
         this.numNode = numNode;
         this.Gui = helgui;
     }
@@ -17,7 +17,7 @@ class Receber extends Thread{
     public void run() {
         while(true) {
             try {
-                node.receber(numNode, Gui);
+                textNode.receber(numNode, Gui);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (BadLocationException e) {

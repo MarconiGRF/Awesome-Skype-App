@@ -5,15 +5,15 @@ import java.net.InetAddress;
 import java.util.*;
 
 public class SendList extends Thread {
-    private Node node;
+    private TextNode textNode;
     public boolean clientstatus;
     private int portacliente;
     private String ipCliente2;
     private LinkedList<String> unsent;
     private boolean unsentmsgs;
 
-    public SendList(Node node, int portacliente, String ipCliente2){
-        this.node = node;
+    public SendList(TextNode textNode, int portacliente, String ipCliente2){
+        this.textNode = textNode;
         this.portacliente = portacliente;
         this.unsent = new LinkedList<>();
         this.ipCliente2 = ipCliente2;
@@ -25,7 +25,7 @@ public class SendList extends Thread {
             while(!unsent.isEmpty()){
                 Thread s1 = null;
                 try {
-                    s1 = new Enviar(node, InetAddress.getByName(ipCliente2),portacliente,unsent.poll());
+                    s1 = new Enviar(textNode, InetAddress.getByName(ipCliente2),portacliente,unsent.poll());
                     s1.start();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -49,7 +49,7 @@ public class SendList extends Thread {
         if(clientstatus){
             Thread s1 = null;
             try {
-                s1 = new Enviar(node, InetAddress.getByName(ipCliente2),portacliente,texto);
+                s1 = new Enviar(textNode, InetAddress.getByName(ipCliente2),portacliente,texto);
                 s1.start();
             }catch (Exception e){
                 e.printStackTrace();
